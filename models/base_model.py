@@ -20,13 +20,13 @@ class BaseModel:
         '''
         the __str__ function to return a string
         '''
-        return (f"[{self.__class__.name}] [{self.id}] {self.__dict__}")
+        return (f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}")
 
     def save(self):
         '''
         The save method which will save the update time
         '''
-        self.update_atm = datetime.now()
+        self.updated_at = datetime.now()
 
     def to_dict(self):
         '''

@@ -1,9 +1,14 @@
 #!/usr/bin/python3
 import unittest
 from models.base_model import BaseModel
+from models import storage
 from datetime import datetime
 
 class TestBaseModel(unittest.TestCase):
+    def setUp(self):
+        # Reset storage to ensure clean state for each test
+        storage.reload()
+
     def test_attributes(self):
         # Create an instance of BaseModel
         obj = BaseModel()
@@ -52,6 +57,27 @@ class TestBaseModel(unittest.TestCase):
 
         # Check if __class__ key has the correct value
         self.assertEqual(obj_dict['__class__'], 'BaseModel')
+
+def test_save_and_reload(self):
+    # Create an instance of BaseModel
+    obj = BaseModel()
+
+    # Save the object
+    obj.save()
+
+    # Create a new BaseModel instance
+    new_obj = BaseModel(id=obj.id)
+
+    # Reload storage
+    storage.reload()
+
+    # Check if object is present in storage
+    self.assertIn("BaseModel.{}".format(obj.id), storage.all())
+
+    # Check if the reloaded object has the same attributes as the original object
+    self.assertEqual(new_obj.id, obj.id)
+    self.assertEqual(new_obj.created_at, obj.created_at)
+    self.assertEqual(new_obj.updated_at, obj.updated_at)
 
 if __name__ == '__main__':
     unittest.main()

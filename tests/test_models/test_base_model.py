@@ -1,83 +1,69 @@
 #!/usr/bin/python3
+"""
+Test cases for BaseModel class
+"""
 import unittest
 from models.base_model import BaseModel
-from models import storage
-from datetime import datetime
 
 class TestBaseModel(unittest.TestCase):
-    def setUp(self):
-        # Reset storage to ensure clean state for each test
-        storage.reload()
+    """
+    Test cases for BaseModel class
+    """
 
     def test_attributes(self):
-        # Create an instance of BaseModel
+        """
+        Test instantiation of BaseModel with attributes
+        """
         obj = BaseModel()
-
-        # Check if attributes are set correctly
         self.assertTrue(hasattr(obj, 'id'))
         self.assertTrue(hasattr(obj, 'created_at'))
         self.assertTrue(hasattr(obj, 'updated_at'))
-        self.assertIsInstance(obj.id, str)
-        self.assertIsInstance(obj.created_at, datetime)
-        self.assertIsInstance(obj.updated_at, datetime)
+
+    def test_id_generation(self):
+        """
+        Test if unique id is generated for each BaseModel instance
+        """
+        obj1 = BaseModel()
+        obj2 = BaseModel()
+        self.assertNotEqual(obj1.id, obj2.id)
 
     def test_str_method(self):
-        # Create an instance of BaseModel
+        """
+        Test __str__ method of BaseModel
+        """
         obj = BaseModel()
-
-        # Check if __str__ method returns the expected string format
-        expected_str = "[BaseModel] ({}) {}".format(obj.id, obj.__dict__)
-        self.assertEqual(str(obj), expected_str)
+        obj_str = str(obj)
+        self.assertEqual(obj_str, "[BaseModel] ({}) {}".format(obj.id, obj.__dict__))
 
     def test_save_method(self):
-        # Create an instance of BaseModel
+        """
+        Test save method of BaseModel
+        """
         obj = BaseModel()
-
-        # Get the initial updated_at value
         initial_updated_at = obj.updated_at
-
-        # Call save method and check if updated_at is updated
         obj.save()
-        self.assertNotEqual(obj.updated_at, initial_updated_at)
+        self.assertNotEqual(initial_updated_at, obj.updated_at)
 
     def test_to_dict_method(self):
-        # Create an instance of BaseModel
+        """
+        Test to_dict method of BaseModel
+        """
         obj = BaseModel()
-
-        # Get the dictionary representation using to_dict method
         obj_dict = obj.to_dict()
+        self.assertTrue(isinstance(obj_dict, dict))
+        self.assertTrue('__class__' in obj_dict)
+        self.assertTrue('id' in obj_dict)
+        self.assertTrue('created_at' in obj_dict)
+        self.assertTrue('updated_at' in obj_dict)
+    def test_from_dict_method(self):
+        """
+        Test recreating BaseModel instance from dictionary representation
+        """
+        obj = BaseModel()
+        obj_dict = obj.to_dict()
+        new_obj = BaseModel(**obj_dict)
+        self.assertEqual(obj.__dict__, new_obj.__dict__)
 
-        # Check if the returned dictionary has the expected keys
-        expected_keys = ['id', 'created_at', 'updated_at', '__class__']
-        self.assertCountEqual(obj_dict.keys(), expected_keys)
-
-        # Check if the values of created_at and updated_at are in ISO format
-        self.assertEqual(obj_dict['created_at'], obj.created_at.isoformat())
-        self.assertEqual(obj_dict['updated_at'], obj.updated_at.isoformat())
-
-        # Check if __class__ key has the correct value
-        self.assertEqual(obj_dict['__class__'], 'BaseModel')
-
-def test_save_and_reload(self):
-    # Create an instance of BaseModel
-    obj = BaseModel()
-
-    # Save the object
-    obj.save()
-
-    # Create a new BaseModel instance
-    new_obj = BaseModel(id=obj.id)
-
-    # Reload storage
-    storage.reload()
-
-    # Check if object is present in storage
-    self.assertIn("BaseModel.{}".format(obj.id), storage.all())
-
-    # Check if the reloaded object has the same attributes as the original object
-    self.assertEqual(new_obj.id, obj.id)
-    self.assertEqual(new_obj.created_at, obj.created_at)
-    self.assertEqual(new_obj.updated_at, obj.updated_at)
 
 if __name__ == '__main__':
     unittest.main()

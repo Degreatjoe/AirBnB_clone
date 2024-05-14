@@ -4,6 +4,7 @@ BaseModel Module
 """
 import uuid
 from datetime import datetime
+from models import storage
 
 class BaseModel:
     """
@@ -36,10 +37,11 @@ class BaseModel:
 
     def save(self):
         """
-        Updates the public instance attribute
-        updated_at with the current datetime
+        Saves the object to the FileStorage
         """
         self.updated_at = datetime.now()
+        storage.new(self)
+        storage.save()
 
     def to_dict(self):
         """

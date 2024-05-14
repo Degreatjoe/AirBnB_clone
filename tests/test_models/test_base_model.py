@@ -4,6 +4,9 @@ Test cases for BaseModel class
 """
 import unittest
 from models.base_model import BaseModel
+from models import storage
+
+# from AirBnB_clone import models
 
 class TestBaseModel(unittest.TestCase):
     """

@@ -8,7 +8,8 @@ from models import storage
 from models.user import User
 
 
-ALLOWED_CLASSES = ['BaseModel', 'User']
+ALLOWED_CLASSES = ['BaseModel', 'User', 'Amenity', 'City', 
+                   'Place', 'reviews', 'State']
 class HBNBCommand(cmd.Cmd):
     """
     HBNBCommand class

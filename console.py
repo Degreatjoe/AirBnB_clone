@@ -5,7 +5,10 @@ Console Module
 import cmd
 from models.base_model import BaseModel
 from models import storage
+from models.user import User
 
+
+ALLOWED_CLASSES = ['BaseModel', 'User']
 class HBNBCommand(cmd.Cmd):
     """
     HBNBCommand class
@@ -13,18 +16,19 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
 
     def do_create(self, arg):
-        """Creates a new instance of BaseModel, 
-        saves it, and prints the id
-        """
+        """Creates a new instance of a model class"""
         if not arg:
             print("** class name missing **")
             return
-        try:
-            new_instance = eval(arg)()
-            new_instance.save()
-            print(new_instance.id)
-        except NameError:
+
+        class_name = arg.split()[0]
+        if class_name not in ALLOWED_CLASSES:
             print("** class doesn't exist **")
+            return
+        
+        new_instance = eval(class_name)()
+        new_instance.save()
+        print(new_instance.id)
 
     def do_show(self, arg):
         """Prints the string representation of an instance
@@ -36,7 +40,7 @@ class HBNBCommand(cmd.Cmd):
             return
         class_name = args[0]
         #check if the class exist in our storage
-        if class_name not in storage.classes():
+        if class_name not in ALLOWED_CLASSES:
             print("** class doesn't exist **")
             return
         if len(args) < 2:
@@ -57,7 +61,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         class_name = args[0]
-        if class_name not in storage.classes():
+        if class_name not in ALLOWED_CLASSES:
             print("** class doesn't exist **")
             return
         if len(args) < 2:
@@ -79,7 +83,7 @@ class HBNBCommand(cmd.Cmd):
             print([str(obj) for obj in storage.all().values()])
         else:
             class_name = arg.split()[0]
-            if class_name not in storage.classes():
+            if class_name not in ALLOWED_CLASSES:
                 print("** class doesn't exist **")
                 return
             print([str(obj) for key, obj in storage.all().items() if key.split('.')[0] == class_name])
@@ -92,7 +96,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         class_name = args[0]
-        if class_name not in storage.classes():
+        if class_name not in ALLOWED_CLASSES:
             print("** class doesn't exist **")
             return
         if len(args) < 2:

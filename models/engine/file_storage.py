@@ -49,8 +49,3 @@ class FileStorage:
                     self.__objects[key] = cls(**value)
         except FileNotFoundError:
             pass
-    def classes(self):
-        """
-        Return a dictionary of available classes
-        """
-        return {k.split('.')[0]: v.__class__.__name__ for k, v in self.__objects.items()}

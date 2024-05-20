@@ -3,7 +3,13 @@
 FileStorage Module
 """
 import json
-
+from models.base_model import BaseModel
+from models.user import User
+from models.amenity import Amenity
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import State
 
 class FileStorage:
     """
@@ -45,9 +51,9 @@ class FileStorage:
                 obj_dict = json.load(f)
                 for key, value in obj_dict.items():
                     class_name, obj_id = key.split('.')
-                    module = __import__('models.base_model',
-                                        fromlist=[class_name])
-                    cls = getattr(module, class_name)
+                    # Updated to use eval for class retrieval
+                    cls = eval(class_name)
                     self.__objects[key] = cls(**value)
         except FileNotFoundError:
             pass
+# Ensure all necessary models are imported so eval can find them

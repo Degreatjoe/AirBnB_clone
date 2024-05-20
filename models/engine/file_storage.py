@@ -4,6 +4,7 @@ FileStorage Module
 """
 import json
 
+
 class FileStorage:
     """
     FileStorage class
@@ -44,7 +45,8 @@ class FileStorage:
                 obj_dict = json.load(f)
                 for key, value in obj_dict.items():
                     class_name, obj_id = key.split('.')
-                    module = __import__('models.base_model', fromlist=[class_name])
+                    module = __import__('models.base_model',
+                                        fromlist=[class_name])
                     cls = getattr(module, class_name)
                     self.__objects[key] = cls(**value)
         except FileNotFoundError:

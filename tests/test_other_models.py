@@ -6,20 +6,21 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 
+
 class TestModels(unittest.TestCase):
     def test_state_initialization(self):
         state = State()
         self.assertEqual(state.name, "")
-    
+
     def test_city_initialization(self):
         city = City()
         self.assertEqual(city.state_id, "")
         self.assertEqual(city.name, "")
-    
+
     def test_amenity_initialization(self):
         amenity = Amenity()
         self.assertEqual(amenity.name, "")
-    
+
     def test_place_initialization(self):
         place = Place()
         self.assertEqual(place.city_id, "")
@@ -33,13 +34,13 @@ class TestModels(unittest.TestCase):
         self.assertEqual(place.latitude, 0.0)
         self.assertEqual(place.longitude, 0.0)
         self.assertEqual(place.amenity_ids, [])
-    
+
     def test_review_initialization(self):
         review = Review()
         self.assertEqual(review.place_id, "")
         self.assertEqual(review.user_id, "")
         self.assertEqual(review.text, "")
 
+
 if __name__ == '__main__':
     unittest.main()
-

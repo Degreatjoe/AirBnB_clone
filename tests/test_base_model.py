@@ -8,6 +8,7 @@ from models import storage
 
 # from AirBnB_clone import models
 
+
 class TestBaseModel(unittest.TestCase):
     """
     Test cases for BaseModel class
@@ -36,7 +37,8 @@ class TestBaseModel(unittest.TestCase):
         """
         obj = BaseModel()
         obj_str = str(obj)
-        self.assertEqual(obj_str, "[BaseModel] ({}) {}".format(obj.id, obj.__dict__))
+        self.assertEqual(obj_str, "[BaseModel] ({}) {}".format(
+            obj.id, obj.__dict__))
 
     def test_save_method(self):
         """
@@ -58,6 +60,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertTrue('id' in obj_dict)
         self.assertTrue('created_at' in obj_dict)
         self.assertTrue('updated_at' in obj_dict)
+
     def test_from_dict_method(self):
         """
         Test recreating BaseModel instance from dictionary representation

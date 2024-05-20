@@ -45,5 +45,6 @@ class TestFileStorage(unittest.TestCase):
         # Check if the reloaded object matches the original
         self.assertIn('BaseModel.{}'.format(obj.id), new_storage.all())
 
+
 if __name__ == '__main__':
     unittest.main()

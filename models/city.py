@@ -1,13 +1,11 @@
 #!/usr/bin/python3
-'''the cuty module'''
+"""This module creates a User class"""
+
 from models.base_model import BaseModel
 
 
 class City(BaseModel):
-    """City class"""
+    """Class for managing city objects"""
 
-    def __init__(self, *args, **kwargs):
-        """Initializes City instance"""
-        super().__init__(*args, **kwargs)
-        self.state_id = ""
-        self.name = ""
+    state_id = ""
+    name = ""

@@ -1,14 +1,12 @@
 #!/usr/bin/python3
-'''The review module'''
+"""This module creates a Review class"""
+
 from models.base_model import BaseModel
 
 
 class Review(BaseModel):
-    """Review class"""
+    """Class for managing review objects"""
 
-    def __init__(self, *args, **kwargs):
-        """Initializes Review instance"""
-        super().__init__(*args, **kwargs)
-        self.place_id = ""
-        self.user_id = ""
-        self.text = ""
+    place_id = ""
+    user_id = ""
+    text = ""

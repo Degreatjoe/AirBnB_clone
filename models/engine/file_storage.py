@@ -3,13 +3,12 @@
 FileStorage Module
 """
 import json
-
+from models.base_model import BaseModel
 
 class FileStorage:
     """
-    FileStorage class
+    Serializes instances to a JSON file and deserializes JSON file to instances
     """
-
     __file_path = "file.json"
     __objects = {}
 
@@ -28,26 +27,22 @@ class FileStorage:
 
     def save(self):
         """
-        Serializes __objects to the JSON file
+        Serializes __objects to the JSON file (path: __file_path)
         """
-        obj_dict = {}
-        for key, value in self.__objects.items():
-            obj_dict[key] = value.to_dict()
+        obj_dict = {key: obj.to_dict() for key, obj in self.__objects.items()}
         with open(self.__file_path, 'w') as f:
             json.dump(obj_dict, f)
 
     def reload(self):
         """
-        Deserializes the JSON file to __objects
+        Deserializes the JSON file to __objects (only if the JSON file (__file_path) exists)
         """
         try:
             with open(self.__file_path, 'r') as f:
                 obj_dict = json.load(f)
                 for key, value in obj_dict.items():
-                    class_name, obj_id = key.split('.')
-                    module = __import__('models.base_model',
-                                        fromlist=[class_name])
-                    cls = getattr(module, class_name)
+                    class_name = value['__class__']
+                    cls = globals()[class_name]
                     self.__objects[key] = cls(**value)
         except FileNotFoundError:
             pass

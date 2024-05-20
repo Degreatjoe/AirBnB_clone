@@ -8,8 +8,10 @@ from models import storage
 from models.user import User
 
 
-ALLOWED_CLASSES = ['BaseModel', 'User', 'Amenity', 'City', 
+ALLOWED_CLASSES = ['BaseModel', 'User', 'Amenity', 'City',
                    'Place', 'reviews', 'State']
+
+
 class HBNBCommand(cmd.Cmd):
     """
     HBNBCommand class
@@ -26,7 +28,7 @@ class HBNBCommand(cmd.Cmd):
         if class_name not in ALLOWED_CLASSES:
             print("** class doesn't exist **")
             return
-        
+
         new_instance = eval(class_name)()
         new_instance.save()
         print(new_instance.id)
@@ -40,7 +42,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         class_name = args[0]
-        #check if the class exist in our storage
+        # check if the class exist in our storage
         if class_name not in ALLOWED_CLASSES:
             print("** class doesn't exist **")
             return
@@ -87,7 +89,8 @@ class HBNBCommand(cmd.Cmd):
             if class_name not in ALLOWED_CLASSES:
                 print("** class doesn't exist **")
                 return
-            print([str(obj) for key, obj in storage.all().items() if key.split('.')[0] == class_name])
+            print([str(obj) for key, obj in storage.all().items()
+                   if key.split('.')[0] == class_name])
 
     def do_update(self, arg):
         """Updates an instance based on the class name and id
@@ -135,6 +138,7 @@ class HBNBCommand(cmd.Cmd):
         """
         print()
         return True
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
